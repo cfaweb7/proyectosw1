@@ -18,22 +18,17 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-  @Bean
+ @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-      // Usa la config CORS anterior
-          .cors(Customizer.withDefaults())               // usa el WebMvcConfigurer
-
-      // Desactiva CSRF en APIs
+      .cors(Customizer.withDefaults())       // usa el WebMvcConfig de arriba
       .csrf(csrf -> csrf.disable())
-      // Permite sin autenticación OPTIONS y los endpoints públicos
       .authorizeHttpRequests(auth -> auth
-          .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()   // ← preflight libre
-          .requestMatchers("/api/auth/**").permitAll()              // login / register
-          .anyRequest().authenticated()
+        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+        .requestMatchers("/api/auth/**").permitAll()
+        .anyRequest().authenticated()
       )
-      // Quita httpBasic si no lo necesitas
-      .httpBasic(AbstractHttpConfigurer::disable);
+      .httpBasic(Customizer.withDefaults()); // o .httpBasic(b -> b.disable()) si no quieres basic
     return http.build();
   }
 }

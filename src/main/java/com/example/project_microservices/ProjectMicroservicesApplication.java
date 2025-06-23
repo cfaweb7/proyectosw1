@@ -14,12 +14,5 @@ public class ProjectMicroservicesApplication implements WebMvcConfigurer{
 		SpringApplication.run(ProjectMicroservicesApplication.class, args);
 	}
 	
-	@Override
-    public void addCorsMappings(CorsRegistry registry) {
-    registry.addMapping("/**")
-            .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-            .allowedHeaders("*")
-            .allowedOriginPatterns("*") // Cambia por tus dominios reales
-            .allowCredentials(true);
-}
+	
 }
